@@ -1,8 +1,8 @@
 #!/bin/bash
 #
 
-#CURRENTUSER=`whoami`
-CURRENTUSER=`appusr`
+CURRENTUSER=`whoami`
+#CURRENTUSER=`appusr`
 
 APPLICATION_HOME=/docs/root/cdsws
 APP_DIR=${APPLICATION_HOME}/app
@@ -34,6 +34,7 @@ build() {
           echo -e "/docs/env file not found!\n"
         fi
 
+        #if ENVIRONMENT is empty string
         if [ -z $ENVIRONMENT ]
         then
           echo -e "Could not determine environment\n"
@@ -115,7 +116,12 @@ build() {
         svn export --force ${SVN_LOC}/${VERSION} ${APP_DIR} | tee -a ${LOG_FILE}
         svn export --force ${SVN_LOC}/${VERSION}/serverInstance/ny-internet-q02/standalone ${STANDALONE_DIR} | tee -a ${LOG_FILE}
         echo "Building with Maven; on server ${HOSTNAME}" | tee -a ${LOG_FILE}
-        mvn clean package -f ${APP_DIR}/pom.xml -DskipTests -Denvironment=${ENVIRONMENT} -DjbossDeployments=/docs/root/cdsws/standalone/deployments | tee -a ${LOG_FILE}
+
+		mvn clean package -f ${APP_DIR}/pom.xml -DskipTests
+		-Denvironment=${ENVIRONMENT}
+		-DjbossDeployments=/docs/root/cdsws/standalone/deployments | tee -a
+		${LOG_FILE}
+
     echo "${DATE} -APP- ${APPLICATION} -VER- ${VERSION}" >> ${VERSION_LOG}
         return 0
 }
@@ -131,11 +137,13 @@ undeploy(){
 }
 
 #Checking user
-if [ ${CURRENTUSER} != 'appusr' ]
-                then
-                echo 'NOT appusr !!!'
-                echo 'Bye ...'
-                exit
+#if [ ${CURRENTUSER} != 'appusr' ]
+if [ ${CURRENTUSER} != 'mteng' ]
+				then
+				#echo 'NOT appusr !!!'
+				echo 'NOT mteng !!!'
+				echo 'Bye ...'
+				exit
 fi
 
 while getopts ":b:duc" opt; do

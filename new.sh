@@ -1,8 +1,8 @@
 #!/bin/bash
 #
 
-#CURRENTUSER=`whoami`
-CURRENTUSER=`appusr`
+CURRENTUSER=`whoami`
+#CURRENTUSER=`appusr`
 
 APPLICATION_HOME=/docs/root/cdsws
 APP_DIR=${APPLICATION_HOME}/app
@@ -34,6 +34,7 @@ build() {
           echo -e "/docs/env file not found!\n"
         fi
 
+        #if ENVIRONMENT is empty string
         if [ -z $ENVIRONMENT ]
         then
           echo -e "Could not determine environment\n"
@@ -42,7 +43,7 @@ build() {
           if [ -z $ENVIRONMENT ]
           then
             echo "No environment entered, goodbye!"
-                exit 1
+                #exit 1
           fi
         fi
 
@@ -55,7 +56,7 @@ build() {
                         then
                         echo 'No Version'
                         echo 'Bye ...'
-                        exit
+                        #exit
         fi
 
         if [ -a ${LOG_DIR} ]
@@ -115,56 +116,68 @@ build() {
         svn export --force ${SVN_LOC}/${VERSION} ${APP_DIR} | tee -a ${LOG_FILE}
         svn export --force ${SVN_LOC}/${VERSION}/serverInstance/ny-internet-q02/standalone ${STANDALONE_DIR} | tee -a ${LOG_FILE}
         echo "Building with Maven; on server ${HOSTNAME}" | tee -a ${LOG_FILE}
-        mvn clean package -f ${APP_DIR}/pom.xml -DskipTests -Denvironment=${ENVIRONMENT} -DjbossDeployments=/docs/root/cdsws/standalone/deployments | tee -a ${LOG_FILE}
+
+		mvn clean package -f ${APP_DIR}/pom.xml -DskipTests
+		-Denvironment=${ENVIRONMENT}
+		-DjbossDeployments=/docs/root/cdsws/standalone/deployments | tee -a
+		${LOG_FILE}
+
     echo "${DATE} -APP- ${APPLICATION} -VER- ${VERSION}" >> ${VERSION_LOG}
-        return 0
+        #return 0
+        echo '[mteng] bye'
 }
 
 deploy(){
-  mvn jboss-as:deploy-only -f ${APP_DIR}/pom.xml -DskipTests -Djboss-as.password=$1 | tee -a ${LOG_FILE}
-  return 0
+  #mvn jboss-as:deploy-only -f ${APP_DIR}/pom.xml -DskipTests -Djboss-as.password=$1 | tee -a ${LOG_FILE}
+  echo 'we are doing deploy'
+  #return 0
+  echo '[mteng] bye'
 }
 
 undeploy(){
-  mvn jboss-as:undeploy -f ${APP_DIR}/pom.xml -DskipTests -Djboss-as.password=$1 | tee -a ${LOG_FILE}
-  return 0
+  #mvn jboss-as:undeploy -f ${APP_DIR}/pom.xml -DskipTests -Djboss-as.password=$1 | tee -a ${LOG_FILE}
+  echo 'we are doing undeploy'
+  #return 0
+  echo '[mteng] bye'
 }
 
 #Checking user
-if [ ${CURRENTUSER} != 'appusr' ]
-                then
-                echo 'NOT appusr !!!'
-                echo 'Bye ...'
-                exit
+#if [ ${CURRENTUSER} != 'appusr' ]
+if [ ${CURRENTUSER} != 'mteng' ]
+				then
+				#echo 'NOT appusr !!!'
+				echo 'NOT mteng !!!'
+				echo 'Bye ...'
+				#exit
 fi
 
-while getopts ":b:duc" opt; do
-  case $opt in
-        b)
-          echo "building"
-          build $OPTARG
-          ;;
-        d)
-          echo "deploying"
-          read -s -p "JBoss CLI Password:" pwd
-          deploy $pwd
-          cp /docs/root/cdsws/app/target/cds-ws.war /docs/root/cdsws/standalone/deployments/cds-ws.war
-          ;;
-        u)
-          echo "undeploying"
-          read -s -p "JBoss CLI Password:" pwd
-          undeploy $pwd
-          ;;
-        c)
-          echo "clean"
-          echo "undeploying"
-          read -s -p "JBoss CLI Password:" pwd
-          undeploy $pwd
-          rm -rf /docs/root/cdsws/standalone/deployments/cds-ws.war
-          ;;
-        *)
-          echo "Usage: $0 {-b [TAG NAME] | -d | -u }"
-          ;;
-  esac
-done
+#while getopts ":b:duc" opt; do
+  #case $opt in
+        #b)
+          #echo "building"
+          #build $OPTARG
+          #;;
+        #d)
+          #echo "deploying"
+          #read -s -p "JBoss CLI Password:" pwd
+          #deploy $pwd
+          #cp /docs/root/cdsws/app/target/cds-ws.war /docs/root/cdsws/standalone/deployments/cds-ws.war
+          #;;
+        #u)
+          #echo "undeploying"
+          #read -s -p "JBoss CLI Password:" pwd
+          #undeploy $pwd
+          #;;
+        #c)
+          #echo "clean"
+          #echo "undeploying"
+          #read -s -p "JBoss CLI Password:" pwd
+          #undeploy $pwd
+          #rm -rf /docs/root/cdsws/standalone/deployments/cds-ws.war
+          #;;
+        #*)
+          #echo "Usage: $0 {-b [TAG NAME] | -d | -u }"
+          #;;
+  #esac
+#done
 shift $(($OPTIND -1))
