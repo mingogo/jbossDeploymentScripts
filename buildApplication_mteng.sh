@@ -2,14 +2,12 @@
 #
 
 CURRENTUSER=`whoami`
-#CURRENTUSER=`appusr`
 
 APPLICATION_HOME=/docs/root/cdsws
 APP_DIR=${APPLICATION_HOME}/app
 LOG_DIR=${APPLICATION_HOME}/log
 STANDALONE_DIR=${APPLICATION_HOME}/standalone
 DEPLOY_DIR=${APPLICATION_HOME}/standalone/deployments
-
 
 DATE=`date +%m-%d-%Y:%l:%M:%S`
 LOG_FILE=${LOG_DIR}/deploy.log
@@ -131,12 +129,14 @@ undeploy(){
 }
 
 #Checking user
-if [ ${CURRENTUSER} != 'appusr' ]
+#if [ ${CURRENTUSER} != 'appusr' ]
+if [ ${CURRENTUSER} != 'mteng' ]
                 then
                 echo 'NOT appusr !!!'
                 echo 'Bye ...'
                 exit
 fi
+echo "Current user is $CURRENTUSER."
 
 while getopts ":b:duc" opt; do
   case $opt in
@@ -167,4 +167,5 @@ while getopts ":b:duc" opt; do
           ;;
   esac
 done
+
 shift $(($OPTIND -1))
