@@ -4,7 +4,7 @@ git add -A
 read -p "[GIT] Enter commiting message (Add things.):" MESSAGE
 MESSAGE=${MESSAGE:-Add things.}
 git commit -m "$MESSAGE"
-git fetch
+git fetch -p
 clear
 git branch -a
 echo "[GIT] Which branch do you want to push to remote?"
