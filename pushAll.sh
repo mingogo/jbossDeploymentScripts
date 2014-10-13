@@ -2,5 +2,7 @@
 git status
 git add -A
 git commit -m "add things."
-git push origin sb
-echo done.
+echo "[GIT] Which branch you want to push to remote?"
+read BRANCH
+git push origin $BRANCH
+echo "[GIT] Done."
