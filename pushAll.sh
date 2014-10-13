@@ -1,8 +1,10 @@
 #!/bin/bash
 git status
 git add -A
-echo "[GIT] Enter commiting message"
-read MESSAGE
+read -p "[GIT] Enter commiting message (Add things.):" MESSAGE
+MESSAGE=${MESSAGE:-Add things.}
+#echo $MESSAGE
+#read MESSAGE
 #git commit -m "add things."
 git commit -m "$MESSAGE"
 git fetch
