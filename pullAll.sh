@@ -3,6 +3,7 @@ git status
 git add -A
 git commit -m "add things."
 git fetch
+clear
 git branch -a
 echo "Which branch you want to pull from remote?"
 read BRANCH
