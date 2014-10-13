@@ -4,23 +4,42 @@
 CURRENTUSER=`whoami`
 #CURRENTUSER=`appusr`
 
-APPLICATION_HOME=/docs/root/cdsws
-APP_DIR=${APPLICATION_HOME}/app
-LOG_DIR=${APPLICATION_HOME}/log
-STANDALONE_DIR=${APPLICATION_HOME}/standalone
-DEPLOY_DIR=${APPLICATION_HOME}/standalone/deployments
+#APPLICATION_HOME=/docs/root/cdsws
+APPLICATION_HOME='/Users/mteng/Desktop/workspace_git/jsonRESTfulServices'
+JBOSS_HOME='c:/source/jboss-as-7.1.0.Final'
+#APP_DIR=${APPLICATION_HOME}/app
+APP_DIR=${APPLICATION_HOME}
+#LOG_DIR=${APPLICATION_HOME}/log
+#STANDALONE_DIR=${APPLICATION_HOME}/standalone
+STANDALONE_DIR=${JBOSS_HOME}/standalone
+DEPLOY_DIR=${JBOSS_HOME}/standalone/deployments
+myhome="/Users/mteng/Desktop"
 
+#mkdir -p $(dirname $JBOSS_CONSOLE_LOG)
+cd $(dirname $myhome)
+mkdir $(dirname test)
+echo
+echo
+echo
+echo
+echo
+asdfasdf
 
 DATE=`date +%m-%d-%Y:%l:%M:%S`
-LOG_FILE=${LOG_DIR}/deploy.log
-VERSION_LOG=${LOG_DIR}/version.properties
+#LOG_FILE=${LOG_DIR}/deploy.log
+#VERSION_LOG=${LOG_DIR}/version.properties
 
-PROJECTNAME="cdsws"
+#PROJECTNAME="cdsws"
+PROJECTNAME="rnp"
 
-JAVA_HOME=/usr/java/jdk1.7.0_10
-MAVEN_HOME=/usr/local/maven
+#JAVA_HOME=/usr/java/jdk1.7.0_10
+JAVA_HOME='/Program Files/Java/jdk1.7'
+#MAVEN_HOME=/usr/local/maven
+MAVEN_HOME='/source/apache-maven-3.2.3/bin/mvn'
 
 PATH=${JAVA_HOME}/bin:${MAVEN_HOME}/bin:${PATH}
+#PATH2=${JAVA_HOME}/bin:${MAVEN_HOME}/bin:${PATH}
+asdf
 export PATH
 
 build() {
