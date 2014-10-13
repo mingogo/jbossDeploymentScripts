@@ -1,7 +1,10 @@
 #!/bin/bash
 git status
 git add -A
-git commit -m "add things."
+echo "[GIT] Enter commiting message"
+read MESSAGE
+#git commit -m "add things."
+git commit -m "$MESSAGE"
 git fetch
 clear
 git branch -a
